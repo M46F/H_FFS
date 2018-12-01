@@ -12,7 +12,6 @@ import copy
 
 def bcr_score(y_true, y_pred):
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    print(tn, fp, fn, tp)
     return 0.5 * ((tp/(tp+fn)) + (tn/(tn+fp)))
 
 
