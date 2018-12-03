@@ -68,7 +68,7 @@ class FFS():
 		        'score': max_score,
 		        'time': end_time - start_time,
 		        'total_time': end_time - start_time if self.k==1 else self.results_[self.k-1]['total_time'] + (end_time - start_time),
-		        'selected_features': copy.copy(selected),
+		        'selected_features': list(selected),
 		        'k':copy.copy(self.k)
 		    }
 
@@ -123,7 +123,7 @@ class H_FFS(FFS):
 				self.hybrid_param = {}
 		else:
 			self.hybrid_func = hybrid_func
-			self.hybrid_param = hybrid_param	
+			self.hybrid_param = hybrid_param
 
 	def ffs(self, X_train, y_train, X_val, y_val, K=None):
 		if K is None:
@@ -138,7 +138,7 @@ class H_FFS(FFS):
 		    start_time = time.time()
 		    max_score = -1
 		    choosen = None
-		    heuristic_features = self.hybrid_func(X_train, y_train, all_features, self.C, **self.hybrid_param)
+		    heuristic_features = self.hybrid_func(X_train, y_train, all_features, self.C, **self.hybrid_param) if self.C + 3 < len(all_features) else all_features
 		    for feat in heuristic_features:
 		        current_features = list(selected.union({feat}))
 		        current_features.sort()
@@ -156,6 +156,6 @@ class H_FFS(FFS):
 		        'score': max_score,
 		        'time': end_time - start_time,
 		        'total_time': end_time - start_time if self.k==1 else self.results_[self.k-1]['total_time'] + (end_time - start_time),
-		        'selected_features': copy.copy(selected),
+		        'selected_features': list(selected),
 		        'k':copy.copy(self.k)
 		    }
